@@ -8,3 +8,10 @@ If you replace git template with this file, the script will run before update. (
 
 ## usage
 
+Setting for existed gogs.
+
+1. Run a sshd docker container. You can use this docker file [Dockerfile](./sshdDockerfile/Dockerfile). Generate a key pair to ssh login this sshd container.
+1. Copy the key file generated before to gogs containers `~/.ssh/`. Copy [config](./config) to gogs containers `~/.ssh/`. Replace sshd's address, port, key file name in `config`. You can have a try, to insure ssh login without passwd.
+1. Copy [post-update.sh](./post-update.sh) to gogs containers `/usr/share/git-core/templates/hooks/post-update`(file, not folder)
+1. New a repo through gogs, then push something. You will find a repo with the update in sshd container's `/tmp/repos`.
+1. Run [walk.sh](./walk.sh) with a parameter, top folder of all repos managed by gogs. All repos will have the hook `post-update`.
